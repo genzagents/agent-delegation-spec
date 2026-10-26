@@ -1,0 +1,89 @@
+{
+  "version": "0.1",
+  "id": "adg_01M5VZ1CFX997PBTKA4A8AY483",
+  "issuedAt": "2026-10-26T11:20:25.341Z",
+  "expiresAt": "2027-10-25T11:20:25.341Z",
+  "principal": {
+    "type": "human",
+    "id": "did:key:z6Mkho5JyrmJq4Uecvd8JiK9tpeTxRvGuZ8KAMRjBAmLKNWp",
+    "publicKey": "z6Mkho5JyrmJq4Uecvd8JiK9tpeTxRvGuZ8KAMRjBAmLKNWp",
+    "verification": {
+      "level": "kyc",
+      "provider": "example-kyc",
+      "verifiedAt": "2026-06-02T10:11:00Z"
+    }
+  },
+  "delegate": {
+    "type": "agent",
+    "id": "did:key:z6MkvnCazPpBU4dX3mW63R6wtkqBQykqzHUT9wPTWkhRV7PF",
+    "publicKey": "z6MkvnCazPpBU4dX3mW63R6wtkqBQykqzHUT9wPTWkhRV7PF",
+    "operator": {
+      "type": "service",
+      "id": "did:key:z6Mkg9spHWwf33knPNrjFtochD7HWprvyE3WRM7uhUF8jqQx",
+      "publicKey": "z6Mkg9spHWwf33knPNrjFtochD7HWprvyE3WRM7uhUF8jqQx"
+    },
+    "runtime": {
+      "model": "claude-opus-5-5",
+      "harness": "example/1.0",
+      "attestation": null
+    }
+  },
+  "audience": [
+    "did:web:bank.example",
+    "https://api.bank.example"
+  ],
+  "scope": [
+    {
+      "action": "account.read",
+      "resource": "acct:*"
+    },
+    {
+      "action": "payment.initiate",
+      "resource": "acct:gb29nwbk60161331926819",
+      "limits": {
+        "perTxn": {
+          "amount": 500,
+          "currency": "GBP"
+        },
+        "perPeriod": {
+          "amount": 2000,
+          "currency": "GBP",
+          "period": "P1M"
+        }
+      },
+      "constraints": {
+        "payeeAllowlist": [
+          "sha256:7e2d4f3bbd4fa2a0c0c5a7d1e3b8f7a6d5c4b3a2918273645564738291a0b1c2"
+        ],
+        "requireStepUp": {
+          "above": {
+            "amount": 250,
+            "currency": "GBP"
+          }
+        }
+      }
+    }
+  ],
+  "revocation": {
+    "method": "status-list",
+    "url": "https://example.org/.well-known/adg-status/2026-10.json",
+    "index": 42
+  },
+  "pacts": [
+    {
+      "id": "pact_noCredentialStorage",
+      "claim": "Delegate never stores or forwards principal credentials",
+      "slashable": true
+    }
+  ],
+  "accountable": {
+    "type": "human",
+    "id": "did:key:z6Mkho5JyrmJq4Uecvd8JiK9tpeTxRvGuZ8KAMRjBAmLKNWp"
+  },
+  "signatures": {
+    "principal": "rDCDea4BYhk_iyYy_XjHXan-6CgytyAqZM2gnIeAVFFIYRSTHif3iOG5roWF9jUZvmz0IIO4jM-a8r7XIj6LCA",
+    "delegate": "_aY-hXbbbLYpovxJBjB2DAIWhhdwRy3LB8JL5FgSUXuZeL6QSMic_wmGWe2dCs4dyXqrjTR14pFwkhKjdb-vBQ",
+    "operator": "jGaTYGGdeu0X1kulcrzQp3Z1ILI69gQY88x_-QBq5aJDsO_ISrm5WPbAAuY6bw9et4ojppz90L6U7cPkjDwCDw",
+    "issuer": "Jxrqwb7wIhl3svriUSD4iPk0y0SLV1xt2tqSczOrC52-hLdOKFPjYU8q5C-4ALJbuNXvbEyhlnRMmnoogfCTDQ"
+  }
+}

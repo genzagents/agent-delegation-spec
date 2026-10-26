@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spec.genzagents.io/delegation/v0.1.json",
+  "title": "Agent Delegation Grant v0.1",
+  "type": "object",
+  "required": ["version", "id", "issuedAt", "expiresAt", "principal", "delegate", "accountable", "scope", "revocation", "signatures"],
+  "properties": {
+    "version": { "const": "0.1" },
+    "id": { "type": "string", "pattern": "^adg_[0-9A-HJKMNP-TV-Z]{26}$" },
+    "issuedAt": { "type": "string", "format": "date-time" },
+    "notBefore": { "type": "string", "format": "date-time" },
+    "expiresAt": { "type": "string", "format": "date-time" },
+    "principal": { "type": "object", "required": ["type", "id", "publicKey"], "properties": {
+      "type": { "enum": ["human", "org"] }, "id": { "type": "string", "pattern": "^did:" }, "publicKey": { "$ref": "#/$defs/multikey" },
+      "verification": { "type": "object", "required": ["level"], "properties": { "level": { "enum": ["none", "light", "kyc"] }, "provider": { "type": "string" }, "verifiedAt": { "type": "string", "format": "date-time" } } } } },
+    "delegate": { "type": "object", "required": ["type", "id", "publicKey"], "properties": {
+      "type": { "const": "agent" }, "id": { "type": "string", "pattern": "^did:" }, "publicKey": { "$ref": "#/$defs/multikey" },
+      "operator": { "type": "object", "required": ["type", "id", "publicKey"], "properties": { "type": { "type": "string" }, "id": { "type": "string", "pattern": "^did:" }, "publicKey": { "$ref": "#/$defs/multikey" } } },
+      "runtime": { "type": "object", "properties": { "model": { "type": "string" }, "harness": { "type": "string" }, "attestation": {} } } } },
+    "accountable": { "type": "object", "required": ["type", "id"], "properties": { "type": { "type": "string" }, "id": { "type": "string" } } },
+    "audience": { "type": "array", "items": { "type": "string" } },
+    "scope": { "type": "array", "minItems": 1, "items": { "type": "object", "required": ["action", "resource"], "properties": {
+      "action": { "type": "string", "pattern": "^[a-z]+\\.[a-z]+$" }, "resource": { "type": "string" },
+      "limits": { "type": "object", "properties": { "perTxn": { "$ref": "#/$defs/money" }, "perPeriod": { "allOf": [{ "$ref": "#/$defs/money" }, { "required": ["period"], "properties": { "period": { "type": "string", "pattern": "^P" } } }] } } },
+      "constraints": { "type": "object", "properties": { "payeeAllowlist": { "type": "array", "items": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" } }, "requireStepUp": { "type": "object", "required": ["above"], "properties": { "above": { "$ref": "#/$defs/money" } } }, "timeWindow": {}, "geo": { "type": "array", "items": { "type": "string" } } } } } } },
+    "revocation": { "type": "object", "required": ["method", "url"], "properties": { "method": { "enum": ["status-list", "endpoint"] }, "url": { "type": "string", "format": "uri" }, "index": { "type": "integer", "minimum": 0 } } },
+    "pacts": { "type": "array", "items": { "type": "object", "required": ["id", "claim", "slashable"], "properties": { "id": { "type": "string" }, "claim": { "type": "string" }, "slashable": { "type": "boolean" }, "evaluationTrigger": { "type": "string" } } } },
+    "extensions": { "type": "object" },
+    "signatures": { "type": "object", "properties": { "principal": { "$ref": "#/$defs/sig" }, "delegate": { "$ref": "#/$defs/sig" }, "operator": { "anyOf": [{ "$ref": "#/$defs/sig" }, { "type": "null" }] }, "issuer": { "anyOf": [{ "$ref": "#/$defs/sig" }, { "type": "null" }] } } }
+  },
+  "$defs": {
+    "multikey": { "type": "string", "pattern": "^z6Mk[1-9A-HJ-NP-Za-km-z]{44}$" },
+    "money": { "type": "object", "required": ["amount", "currency"], "properties": { "amount": { "type": "number", "minimum": 0 }, "currency": { "type": "string", "pattern": "^[A-Z]{3}$" } } },
+    "sig": { "type": "string", "pattern": "^[A-Za-z0-9_-]{86}$" }
+  }
+}

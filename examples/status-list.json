@@ -1,0 +1,11 @@
+{
+  "version": "0.1",
+  "id": "https://example.org/.well-known/adg-status/2026-10.json",
+  "issuer": "did:key:z6MkhYzACyFHrfqn2WKyETPLhHNTPNuQbLhCSPJTmUZy4bYK",
+  "issuerKey": "z6MkhYzACyFHrfqn2WKyETPLhHNTPNuQbLhCSPJTmUZy4bYK",
+  "issuedAt": "2026-10-26T11:20:25.341Z",
+  "validUntil": "2027-10-26T11:20:25.341Z",
+  "size": 1024,
+  "encodedList": "H4sIAAAAAAAAE2NgGFgAAJ36qMKAAAAA",
+  "signature": "rCJKCR6zP4xHk0pq1fXXGPM9iicbd4h_PbpC61e7mkgKh9l-uuV-scssqYx6FVLMZhlF-pDaE4-NvuXbQOyUDg"
+}
